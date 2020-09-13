@@ -1,7 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import { HandlerFunction } from '../../types';
 
-const FloaterCloseBtn = ({ handleClick, styles }) => {
+interface Props {
+  handleClick: HandlerFunction<HTMLButtonElement>;
+  styles: React.CSSProperties;
+}
+
+function FloaterCloseBtn({ handleClick, styles }: Props): JSX.Element {
   const { color, height, width, ...style } = styles;
 
   return (
@@ -23,11 +28,6 @@ const FloaterCloseBtn = ({ handleClick, styles }) => {
       </svg>
     </button>
   );
-};
-
-FloaterCloseBtn.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  styles: PropTypes.object.isRequired,
-};
+}
 
 export default FloaterCloseBtn;
