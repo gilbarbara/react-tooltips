@@ -1,0 +1,65 @@
+import * as React from 'react';
+import is from 'is-lite';
+
+import { HandlerFunction, PlainObject, Styles } from '../../types';
+
+import CloseBtn from './CloseBtn';
+
+interface Props {
+  content: React.ReactNode;
+  footer?: React.ReactNode;
+  onClick: HandlerFunction<HTMLButtonElement>;
+  open?: boolean;
+  positionWrapper: boolean;
+  showCloseButton?: boolean;
+  styles: Styles;
+  title?: React.ReactNode;
+}
+
+function FloaterContainer(props: Props): JSX.Element {
+  const { content, footer, onClick, open, positionWrapper, showCloseButton, title, styles } = props;
+
+  const output: PlainObject = {
+    content: React.isValidElement(content) ? (
+      content
+    ) : (
+      <div className="__floater__content" style={styles.content}>
+        {content}
+      </div>
+    ),
+  };
+
+  if (title) {
+    output.title = React.isValidElement(title) ? (
+      title
+    ) : (
+      <div className="__floater__title" style={styles.title}>
+        {title}
+      </div>
+    );
+  }
+
+  if (footer) {
+    output.footer = React.isValidElement(footer) ? (
+      footer
+    ) : (
+      <div className="__floater__footer" style={styles.footer}>
+        {footer}
+      </div>
+    );
+  }
+
+  if ((showCloseButton || positionWrapper) && !is.boolean(open)) {
+    output.close = <CloseBtn styles={styles.close} handleClick={onClick} />;
+  }
+  return (
+    <div className="__floater__container" style={styles.container}>
+      {output.close}
+      {output.title}
+      {output.content}
+      {output.footer}
+    </div>
+  );
+}
+
+export default FloaterContainer;
